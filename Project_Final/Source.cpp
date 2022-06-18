@@ -131,9 +131,7 @@ void init() {
 
     // to make transparent in snowing and sun
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-    // add sound
-    //PlaySound(TEXT("C:\\Users\\Ekram\\Desktop\\video.wav"), NULL, SND_ASYNC | SND_FILENAME | SND_LOOP);
+      
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
@@ -694,10 +692,13 @@ void evaporate(void) {
     if (t > keyFrameTimes[0] && t < keyFrameTimes[1])
         smove += 0.0004;
     else // it reached the cloud so disappear inside the ground
-        smove = -0.9;
-
-    //for change text
+        smove = -0.9;   
+    
     if (tex == 0) {
+        // add nature sound
+        PlaySound(TEXT("NatureSound.wav"), NULL, SND_ASYNC | SND_FILENAME | SND_LOOP);
+        
+        //for change text
         a = ("Evaporation");
         tex++;
     }
@@ -739,8 +740,11 @@ void raining(void) {
         glClearColor(0.39216, 0.57255, 0.70588, 1); //change color background        
         precipiting(0.005f); // start raining 
 
-        //for change text
-        if (tex == 2) {
+        if (tex == 2) {             
+            // add sound
+            PlaySound(TEXT("RainingSound.wav"), NULL, SND_ASYNC | SND_FILENAME | SND_LOOP); 
+            
+            //for change text
             a = ("Precipitation-Rain");
             tex++;
         }
@@ -756,6 +760,10 @@ void sleeting(void) {
 
 
         if (tex == 3) {
+            // add sound
+            PlaySound(TEXT("SleetingSound.wav"), NULL, SND_ASYNC | SND_FILENAME | SND_LOOP);
+            
+            // add text
             a = ("Or Precipitation-Sleet");
             tex++;
         }
@@ -771,8 +779,10 @@ void snowing(void) {
         precipiting(0.001f); // start snowing
         snowTransparent += 0.001f;
 
-
         if (tex == 4) {
+            // add sound
+            PlaySound(TEXT("SnowingSound.wav"), NULL, SND_ASYNC | SND_FILENAME | SND_LOOP);
+            // add text 
             a = ("Or Precipitation-Snowflakes");
             tex++;
         }
@@ -841,19 +851,6 @@ void drawAxes(GLfloat xNeg, GLfloat xPos, GLfloat yNeg, GLfloat yPos, GLfloat zN
     glEnd();
 }
 
-void rectanglePoints(GLfloat xLeft, GLfloat yBottom, GLfloat length, GLfloat width) {
-    glVertex2f(xLeft, yBottom);
-    glVertex2f(xLeft + width, yBottom);
-    glVertex2f(xLeft + width, yBottom + length);
-    glVertex2f(xLeft, yBottom + length);
-}
-
-void fillRectangle(GLfloat xLeft, GLfloat yBottom, GLfloat length, GLfloat width) {
-    glBegin(GL_QUADS);
-    rectanglePoints(xLeft, yBottom, length, width);
-    glEnd();
-}
-
 void display() {
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -907,13 +904,8 @@ void display() {
 
     // add text to screen that defines the process name
     addText(-0.2, -1.9, const_cast<char*>(a.c_str()));
-
-    //addText(-1, 1.3, "Water Cycle");
-   
+    //addText(-1, 1.3, "Water Cycle");   
     
-    
-    
-
     drawAxes(-1, 1, -1, 1, -1, 1);
     glFlush();
     glutSwapBuffers();
